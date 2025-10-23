@@ -182,7 +182,7 @@ def main():
         with col2:
             if st.button("🌿 Use Sample Image Instead", use_container_width=True):
                 # Load default sample image
-                sample_path = "samples/test_img1.jpg"  # Change to your sample image path
+                sample_path = "samples/test_img.png"  # Change to your sample image path
                 
                 if os.path.exists(sample_path):
                     sample_image = Image.open(sample_path)
