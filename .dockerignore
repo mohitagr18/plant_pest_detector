@@ -13,3 +13,6 @@ google_adk_venv/
 *.md
 *.pdf
 .DS_Store
+
+# Keep samples
+!samples/

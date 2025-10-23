@@ -86,10 +86,15 @@ st.markdown("""
         color: #666;
     }
     
-    /* INCREASE: Tab labels */
     .stTabs [data-baseweb="tab-list"] button {
+        font-size: 1.1rem !important;
+        padding: 0.8rem 1.2rem !important;
+        font-weight: 500 !important;
+    }
+
+    /* Make tab text and emojis bigger */
+    .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] {
         font-size: 1.2rem !important;
-        padding: 0.75rem 1.25rem !important;
     }
             
     /* INCREASE: "Treatment Recommendations:" ONLY (not all bold text) */
@@ -140,8 +145,22 @@ def reset_session():
 def main():
     # Header
     st.title("🌱 Agricultural Assistant")
-    st.markdown("*AI-powered pest & disease detection with personalized treatment recommendations*")
+    st.markdown("""
+<p style="font-size: 1.1rem; color: #666; font-style: italic; margin-top: -10px; margin-bottom: 20px;">
+    AI-powered pest & disease detection with personalized treatment & product recommendations
+</p>
+""", unsafe_allow_html=True)
     
+    # Built with and Data sources
+    st.markdown("""
+    <div style="margin-top: -10px; margin-bottom: 20px;">
+        <p style="font-size: 1.1rem; color: #666; line-height: 1.8;">
+            <strong>Built with:</strong> Google Gemini 2.0 Flash • Streamlit • Docker • Cloud Run<br>
+            <strong>📊 Data sources:</strong> NOAA Weather API • USDA Soil Database • Amazon Product Search
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
     # ========================================================================
     # STAGE 1: IMAGE UPLOAD
     # ========================================================================
@@ -151,23 +170,51 @@ def main():
         st.subheader("📸 Upload Plant Image")
         st.markdown("Take a photo of your plant showing signs of pest or disease")
         
+        # File uploader
         uploaded_file = st.file_uploader(
             "Choose an image",
             type=['jpg', 'jpeg', 'png'],
             help="Best results with clear, well-lit photos"
         )
         
+        # Sample image button (below uploader)
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            if st.button("🌿 Use Sample Image Instead", use_container_width=True):
+                # Load default sample image
+                sample_path = "samples/test_img1.jpg"  # Change to your sample image path
+                
+                if os.path.exists(sample_path):
+                    sample_image = Image.open(sample_path)
+                    st.session_state.sample_image = sample_image
+                    st.rerun()
+                else:
+                    st.error("Sample image not found!")
+        
+        # Check if we have either uploaded or sample image
+        image_to_process = None
+        
         if uploaded_file:
-            # Display uploaded image
-            image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Image", use_container_width=True)
+            image_to_process = Image.open(uploaded_file)
+            source = "uploaded"
+        elif 'sample_image' in st.session_state:
+            image_to_process = st.session_state.sample_image
+            source = "sample"
+        
+        # Display and analyze
+        if image_to_process:
+            # Show image source
+            if source == "sample":
+                st.info("ℹ️ Using sample image: Tomato leaf with caterpillar infestation")
+            
+            st.image(image_to_process, caption="Uploaded Image", use_container_width=True)
             
             # Analyze button
             if st.button("🔍 Analyze Image", type="primary"):
                 with st.spinner("Analyzing image..."):
                     # Convert to bytes
                     buffer = BytesIO()
-                    image.save(buffer, format='JPEG')
+                    image_to_process.save(buffer, format='JPEG')
                     image_bytes = buffer.getvalue()
                     
                     # Detect pest/disease
@@ -185,8 +232,12 @@ def main():
                         'confidence': confidence,
                         'subject_type': subject_type,
                         'brief_assessment': brief_assessment,
-                        'image': image
+                        'image': image_to_process
                     }
+                    
+                    # Clear sample image from session state
+                    if 'sample_image' in st.session_state:
+                        del st.session_state.sample_image
                     
                     # Move to next stage
                     st.session_state.stage = 'details'
