@@ -155,7 +155,7 @@ def main():
     st.markdown("""
     <div style="margin-top: -10px; margin-bottom: 20px;">
         <p style="font-size: 1.1rem; color: #666; line-height: 1.8;">
-            <strong>Built with:</strong> Google Gemini 2.0 Flash • Streamlit • Docker • Cloud Run<br>
+            <strong>Built with:</strong> Google Gemini 2.5 Flash • Streamlit • Docker • Cloud Run<br>
             <strong>📊 Data sources:</strong> NOAA Weather API • USDA Soil Database • Amazon Product Search
         </p>
     </div>
