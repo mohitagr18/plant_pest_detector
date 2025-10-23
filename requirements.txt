@@ -1,5 +1,4 @@
 # Web Framework
-Flask>=3.0.0
 streamlit>=1.28.0
 
 # AI/ML

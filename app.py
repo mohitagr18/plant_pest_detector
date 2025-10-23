@@ -33,7 +33,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
 # Custom CSS for mobile-friendly design
 st.markdown("""
 <style>
@@ -81,10 +80,21 @@ st.markdown("""
         font-weight: 700 !important;
     }
     
-    /* Tab labels should be bigger */
-    .stTabs [data-baseweb="tab-list"] button {
+    /* INCREASE: Subtitle text (AI-powered...) */
+    .main .block-container em {
         font-size: 1.1rem !important;
-        padding: 0.75rem 1rem !important;
+        color: #666;
+    }
+    
+    /* INCREASE: Tab labels */
+    .stTabs [data-baseweb="tab-list"] button {
+        font-size: 1.2rem !important;
+        padding: 0.75rem 1.25rem !important;
+    }
+            
+    /* INCREASE: "Treatment Recommendations:" ONLY (not all bold text) */
+    .stMarkdown p:has(strong:only-child) {
+        font-size: 1.15rem !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -222,7 +232,7 @@ def main():
             with col2:
                 zipcode = st.text_input(
                     "Zip Code",
-                    placeholder="e.g., 92336",
+                    placeholder="e.g., 94533",
                     max_chars=5
                 )
             
