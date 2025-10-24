@@ -1,13 +1,13 @@
 # 🌱 Agricultural Assistant
 
-AI-powered pest & disease detection with personalized treatment recommendations
+AI-powered pest & disease detection with personalized treatment & product recommendations
 
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28.0-FF4B4B.svg)](https://streamlit.io)
-[![Gemini](https://img.shields.io/badge/Gemini-blue.svg)](https://gemini.google/us/about/?hl=en)
+[![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-blue.svg)](https://gemini.google/us/about/?hl=en)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED.svg)](https://www.docker.com)
 [![Cloud Run](https://img.shields.io/badge/Cloud%20Run-Deployed-4285F4.svg)](https://cloud.google.com/run)
 
-**Live Demo:** https://agri-assistant-g57ai3hf4a-uc.a.run.app/
+**Live Demo:** [https://agri-assistant-g57ai3hf4a-uc.a.run.app/](https://agri-assistant-g57ai3hf4a-uc.a.run.app/)
 
 ---
 
@@ -33,13 +33,13 @@ AI-powered pest & disease detection with personalized treatment recommendations
 
 Agricultural Assistant is an intelligent web application that helps gardeners identify plant pests and diseases through image recognition, then provides personalized treatment recommendations based on local weather conditions, soil types, and severity levels.
 
-The application uses **agentic AI architecture** powered by Google Gemini 2.0 Flash, where the AI autonomously decides when to call tools for weather data, soil information, and product recommendations to generate comprehensive treatment plans.
+The application uses **agentic AI architecture** powered by Google Gemini 2.5 Flash, where the AI autonomously decides when to call tools for weather data, soil information, and product recommendations to generate comprehensive treatment plans. The system also implements **Model Context Protocol (MCP)** standards, allowing the agricultural tools to be exposed to external AI clients like Claude Desktop for broader ecosystem integration.
 
 ### Why This Project?
 
 - **Problem:** Home gardeners often struggle to identify pests/diseases and find appropriate treatments quickly
 - **Solution:** Instant AI-powered diagnosis with location-specific recommendations
-- **Innovation:** Agentic AI that integrates multiple data sources automatically
+- **Innovation:** Agentic AI that integrates multiple data sources automatically with MCP compatibility for tool sharing
 
 ---
 
@@ -54,10 +54,16 @@ The application uses **agentic AI architecture** powered by Google Gemini 2.0 Fl
   - Sample images available for testing
 
 - **🌐 Agentic AI Architecture**
-  - Google Gemini autonomously calls tools based on context
+  - Google Gemini 2.5 Flash autonomously calls tools based on context
   - Real-time weather data integration
   - Automatic soil type analysis
   - Dynamic product search
+
+- **🔌 MCP Integration**
+  - Tools exposed via Model Context Protocol (MCP)
+  - Compatible with Claude Desktop and other MCP clients
+  - Standardized tool interface for AI agent ecosystem
+  - Dual implementation: Gemini native function calling + MCP server
 
 - **💊 Personalized Treatment Plans**
   - Severity-based treatment recommendations
@@ -104,16 +110,29 @@ The application uses **agentic AI architecture** powered by Google Gemini 2.0 Fl
 ### Agentic AI Workflow
 
 ```
+User Upload → Gemini Vision (Detection) → Gemini 2.5 Flash Agent (Context Gathering)
+                                              ↓
+                                         Tool Calls:
+                                         - get_weather()
+                                         - get_soil_type()
+                                         - search_amazon_products()
+                                              ↓
+                                    Personalized Recommendations
+```
 
-User Upload → Gemini Vision (Detection) → Gemini Agent (Context Gathering)
-↓
-Tool Calls:
-\- get\_weather()
-\- get\_soil\_type()
-\- search\_amazon\_products()
-↓
-Personalized Recommendations
+### MCP Architecture (Optional)
 
+```
+External AI Clients (Claude Desktop, etc.)
+              ↓
+         MCP Protocol
+              ↓
+     MCP Server (agri_tools.py)
+              ↓
+     Tool Implementations
+     - Weather API
+     - Soil Database
+     - Product Search
 ```
 
 ### Technology Stack
@@ -126,6 +145,7 @@ Personalized Recommendations
 - Google Gemini 2.5 Flash (Agentic AI)
 - Python 3.11
 - PIL (Image processing)
+- FastMCP (Model Context Protocol)
 
 **Data Sources:**
 - NOAA Weather Service API
@@ -144,35 +164,33 @@ Personalized Recommendations
 ## 🗂️ Project Structure
 
 ```
-
-plant\_pest\_detector/
+plant_pest_detector/
 │
-├── app.py                          \# Main Streamlit application
+├── app.py                          # Main Streamlit application
 │
-├── src/                            \# Core application modules
-│   ├── plant\_pest\_detector.py      \# Gemini Vision for pest detection
-│   ├── qa\_engine\_agentic.py        \# Agentic AI with tool calling
-│   ├── location\_service.py         \# Weather & soil data integration
-│   └── **init**.py
+├── src/                            # Core application modules
+│   ├── plant_pest_detector.py      # Gemini Vision for pest detection
+│   ├── qa_engine_agentic.py        # Agentic AI with tool calling
+│   ├── location_service.py         # Weather & soil data integration
+│   └── __init__.py
 │
-├── mcp\_server/                     \# MCP tool definitions (optional)
-│   └── agri\_tools.py               \# MCP-decorated tools for external clients
+├── mcp_server/                     # MCP tool definitions
+│   └── agri_tools.py               # MCP-decorated tools for external clients
 │
-├── samples/                        \# Sample images for testing
-│   └── citrus-aphids.jpg                  \# Default sample image
-|   └── test\_img.png
+├── samples/                        # Sample images for testing
+│   ├── citrus-aphids.jpg           # Default sample image
+│   └── test_img.png
 │
-├── .github/                        \# CI/CD workflows
+├── .github/                        # CI/CD workflows
 │   └── workflows/
-│       └── deploy.yml              \# GitHub Actions deployment
+│       └── deploy.yml              # GitHub Actions deployment
 │
-├── Dockerfile                      \# Docker container configuration
-├── .dockerignore                   \# Docker build exclusions
-├── requirements.txt                \# Python dependencies
-├── .env.example                    \# Environment variables template
-├── .gitignore                      \# Git exclusions
-└── README.md                       \# This file
-
+├── Dockerfile                      # Docker container configuration
+├── .dockerignore                   # Docker build exclusions
+├── requirements.txt                # Python dependencies
+├── .env.example                    # Environment variables template
+├── .gitignore                      # Git exclusions
+└── README.md                       # This file
 ```
 
 ### Key Files
@@ -181,9 +199,9 @@ plant\_pest\_detector/
 |------|---------|
 | `app.py` | Main Streamlit UI with 3-stage workflow |
 | `src/plant_pest_detector.py` | Gemini Vision API integration for image analysis |
-| `src/qa_engine_agentic.py` | Agentic AI engine with autonomous tool calling |
+| `src/qa_engine_agentic.py` | Agentic AI engine with Gemini 2.5 Flash function calling |
 | `src/location_service.py` | NOAA Weather & USDA Soil API integration |
-| `mcp_server/agri_tools.py` | MCP-decorated tools (for Claude Desktop, etc.) |
+| `mcp_server/agri_tools.py` | MCP-decorated tools for Claude Desktop and other MCP clients |
 | `Dockerfile` | Multi-platform Docker build (AMD64 for Cloud Run) |
 
 ---
@@ -201,34 +219,25 @@ plant\_pest\_detector/
 
 1. **Clone the repository**
 ```
-
-git clone [https://github.com/YOUR\_USERNAME/plant\_pest\_detector.git](https://github.com/YOUR_USERNAME/plant_pest_detector.git)
-cd plant\_pest\_detector
-
+git clone https://github.com/YOUR_USERNAME/plant_pest_detector.git
+cd plant_pest_detector
 ```
 
 2. **Create virtual environment**
 ```
-
 python3 -m venv venv
-source venv/bin/activate  \# On Windows: venv\\Scripts\\activate
-
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 3. **Install dependencies**
 ```
-
 pip install -r requirements.txt
-
 ```
 
 4. **Set up environment variables**
 ```
-
 cp .env.example .env
-
 # Edit .env and add your API keys
-
 ```
 
 Required API keys:
@@ -237,9 +246,7 @@ Required API keys:
 
 5. **Run locally**
 ```
-
 streamlit run app.py
-
 ```
 
 The app will open at `http://localhost:8501`
@@ -251,15 +258,11 @@ The app will open at `http://localhost:8501`
 ### Build and Run Locally
 
 ```
-
 # Build Docker image
-
 docker build -t agri-assistant:local .
 
 # Run container
-
 docker run -p 8080:8080 --env-file .env agri-assistant:local
-
 ```
 
 Access at `http://localhost:8080`
@@ -267,13 +270,10 @@ Access at `http://localhost:8080`
 ### Build for Cloud Run (Apple Silicon Macs)
 
 ```
-
 # Build for AMD64 architecture
-
-docker buildx build --platform linux/amd64  
-\-t us-central1-docker.pkg.dev/YOUR\_PROJECT\_ID/agri-assistant/agri-assistant:latest  
-\--push .
-
+docker buildx build --platform linux/amd64 \
+  -t us-central1-docker.pkg.dev/YOUR_PROJECT_ID/agri-assistant/agri-assistant:latest \
+  --push .
 ```
 
 ---
@@ -286,43 +286,35 @@ docker buildx build --platform linux/amd64
 
 1. **Enable required APIs**
 ```
-
 gcloud services enable run.googleapis.com
 gcloud services enable artifactregistry.googleapis.com
 gcloud services enable secretmanager.googleapis.com
-
 ```
 
 2. **Create Artifact Registry repository**
 ```
-
-gcloud artifacts repositories create agri-assistant  
-\--repository-format=docker  
-\--location=us-central1
-
+gcloud artifacts repositories create agri-assistant \
+  --repository-format=docker \
+  --location=us-central1
 ```
 
 3. **Store secrets**
 ```
-
-echo -n "your-google-api-key" | gcloud secrets create GOOGLE\_API\_KEY --data-file=-
-echo -n "your-serper-api-key" | gcloud secrets create SERPER\_API\_KEY --data-file=-
-
+echo -n "your-google-api-key" | gcloud secrets create GOOGLE_API_KEY --data-file=-
+echo -n "your-serper-api-key" | gcloud secrets create SERPER_API_KEY --data-file=-
 ```
 
 4. **Deploy to Cloud Run**
 ```
-
-gcloud run deploy agri-assistant  
-\--image us-central1-docker.pkg.dev/YOUR\_PROJECT\_ID/agri-assistant/agri-assistant:latest  
-\--platform managed  
-\--region us-central1  
-\--allow-unauthenticated  
-\--set-secrets=GOOGLE\_API\_KEY=GOOGLE\_API\_KEY:latest,SERPER\_API\_KEY=SERPER\_API\_KEY:latest  
-\--memory 2Gi  
-\--cpu 2  
-\--timeout 300
-
+gcloud run deploy agri-assistant \
+  --image us-central1-docker.pkg.dev/YOUR_PROJECT_ID/agri-assistant/agri-assistant:latest \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-secrets=GOOGLE_API_KEY=GOOGLE_API_KEY:latest,SERPER_API_KEY=SERPER_API_KEY:latest \
+  --memory 2Gi \
+  --cpu 2 \
+  --timeout 300
 ```
 
 ---
@@ -332,16 +324,12 @@ gcloud run deploy agri-assistant
 Create a `.env` file in the root directory:
 
 ```
-
 # Required
-
-GOOGLE\_API\_KEY=your\_google\_gemini\_api\_key
-SERPER\_API\_KEY=your\_serper\_api\_key
+GOOGLE_API_KEY=your_google_gemini_api_key
+SERPER_API_KEY=your_serper_api_key
 
 # Optional
-
-LOG\_LEVEL=INFO
-
+LOG_LEVEL=INFO
 ```
 
 ### Getting API Keys
@@ -366,7 +354,8 @@ This project is licensed under the MIT License - see the `LICENSE` file for deta
 
 ## 🙏 Acknowledgments
 
-- Google AI for Gemini API
+- Google AI for Gemini 2.5 Flash API
+- Anthropic for Model Context Protocol (MCP) standards
 - NOAA for weather data
 - USDA for soil database
 - Streamlit community for amazing framework
@@ -389,6 +378,7 @@ This project is licensed under the MIT License - see the `LICENSE` file for deta
 - [ ] Community-contributed treatment data
 - [ ] Integration with IoT sensors
 - [ ] Offline mode support
+- [ ] MCP server deployment for broader ecosystem access
 
 ---
 
