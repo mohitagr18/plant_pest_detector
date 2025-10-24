@@ -2,7 +2,6 @@
 
 Here's a detailed README.md file for your repository:
 
-```markdown
 # 🌱 Agricultural Assistant
 
 AI-powered pest & disease detection with personalized treatment recommendations
@@ -386,4 +385,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ using Google Gemini 2.5 Flash**
-```
