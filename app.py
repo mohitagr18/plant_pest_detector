@@ -28,7 +28,7 @@ from src.qa_engine_agentic import (
 # ============================================================================
 
 st.set_page_config(
-    page_title="🌱 Agricultural Assistant",
+    page_title="🌱 Plant Doctor",
     page_icon="🌱",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -144,7 +144,7 @@ def reset_session():
 
 def main():
     # Header
-    st.title("🌱 Agricultural Assistant")
+    st.title("🌱 Plant Doctor")
     st.markdown("""
 <p style="font-size: 1.1rem; color: #666; font-style: italic; margin-top: -10px; margin-bottom: 20px;">
     AI-powered pest & disease detection with personalized treatment & product recommendations
