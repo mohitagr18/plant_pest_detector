@@ -205,7 +205,7 @@ def main():
         if image_to_process:
             # Show image source
             if source == "sample":
-                st.info("ℹ️ Using sample image: Tomato leaf with caterpillar infestation")
+                st.info("ℹ️ Using sample image: Lemon leaf with caterpillar infestation")
             
             st.image(image_to_process, caption="Uploaded Image", use_container_width=True)
             
