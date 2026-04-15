@@ -1,0 +1,19 @@
+image,query,latency_s,input_tokens,output_tokens
+Lemon/Caterpillar,Q1: Image Detection,5.249,360,27
+Lemon/Caterpillar,Q2: Brief Risk Assessment,0.654,193,24
+Lemon/Caterpillar,Q3: Treatment Advice (weather+soil tools),5.004,855,103
+Lemon/Caterpillar,Q4: Product Recommendations (Amazon),10.369,1347,159
+Lemon/Caterpillar,Q5: Soil Impact Analysis,4.164,1544,204
+Lemon/Caterpillar,Q6: Weather-Based Timing,5.438,1792,198
+Lemon/Caterpillar,Q7: Monitoring & Prevention,4.011,2043,197
+Lemon/Caterpillar,Q8: Custom Question,3.188,2272,278
+Citrus/Aphids,Q1: Image Detection,5.013,360,20
+Citrus/Aphids,Q2: Brief Risk Assessment,0.697,186,25
+Citrus/Aphids,Q3: Treatment Advice (weather+soil tools),6.313,842,108
+Citrus/Aphids,Q4: Product Recommendations (Amazon),6.1,1327,156
+Citrus/Aphids,Q5: Soil Impact Analysis,4.751,1515,224
+Citrus/Aphids,Q6: Weather-Based Timing,3.844,1777,198
+Citrus/Aphids,Q7: Monitoring & Prevention,2.548,2021,208
+Citrus/Aphids,Q8: Custom Question,2.717,2254,288
+
+AVERAGE,(16 queries),4.379,1293.0,151.1
